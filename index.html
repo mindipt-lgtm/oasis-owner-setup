@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Oasis Escapes Owner Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --green:#0A5230; --ink:#202020; --gray:#636363; --muted:#757673; --bg:#FFFFFF; --off:#F7F7F7; --line:#E4E4E2; --tint:#EAF2ED; --warn:#8A4B08; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; background:var(--bg); color:var(--ink); font:400 16px/1.5 'Work Sans',system-ui,sans-serif; -webkit-text-size-adjust:100%; }
+  h1,h2,h3 { font-family:'Cormorant Garamond',Georgia,serif; font-weight:600; line-height:1.15; margin:0; }
+  h1 { font-size:34px; } h2 { font-size:28px; } h3 { font-size:22px; }
+  .wrap { max-width:640px; margin:0 auto; padding:20px 16px 110px; }
+  .brand { font:600 13px 'Work Sans',sans-serif; letter-spacing:.08em; text-transform:uppercase; color:var(--green); margin-bottom:18px; }
+  .sub { color:var(--gray); margin:10px 0 0; }
+  .bar { height:6px; background:var(--off); border-radius:3px; overflow:hidden; margin:22px 0 6px; }
+  .bar i { display:block; height:100%; background:var(--green); width:0; transition:width .25s; }
+  .barlabel { font-size:14px; color:var(--muted); display:flex; justify-content:space-between; }
+  .steps { list-style:none; padding:0; margin:22px 0 0; }
+  .step { width:100%; display:flex; gap:14px; align-items:center; text-align:left; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:14px; margin:0 0 10px; cursor:pointer; font:inherit; color:inherit; min-height:64px; }
+  .step:hover { border-color:var(--green); }
+  .step b { display:block; font-weight:500; }
+  .step small { color:var(--muted); font-size:14px; }
+  .dot { flex:0 0 28px; height:28px; border-radius:50%; border:1.5px solid var(--line); display:grid; place-items:center; font-size:15px; color:#fff; }
+  .dot.done { background:var(--green); border-color:var(--green); }
+  .dot.part { border-color:var(--green); }
+  .chev { margin-left:auto; color:var(--muted); }
+  .step.feature { background:var(--tint); border-color:var(--tint); }
+  .field { margin:24px 0 0; }
+  .field > label, .field > .lbl { display:block; font-weight:500; margin-bottom:6px; }
+  .req { color:var(--green); font-size:13px; font-weight:400; margin-left:4px; }
+  .help { color:var(--muted); font-size:14px; margin:-2px 0 8px; }
+  input[type=text],input[type=number],input[type=tel],input[type=email],textarea { width:100%; font:inherit; font-size:16px; padding:12px; border:1px solid #BDBDBA; border-radius:8px; background:#fff; color:var(--ink); }
+  textarea { min-height:92px; resize:vertical; }
+  input:focus,textarea:focus,button:focus-visible { outline:2px solid var(--green); outline-offset:1px; }
+  .opts { display:flex; flex-wrap:wrap; gap:8px; }
+  .opt { font:inherit; font-size:15px; background:#fff; border:1px solid #BDBDBA; border-radius:8px; padding:10px 14px; cursor:pointer; color:var(--ink); min-height:44px; text-align:left; }
+  .opt[aria-pressed=true] { background:var(--green); border-color:var(--green); color:#fff; }
+  .btn { font:500 16px 'Work Sans',sans-serif; background:var(--green); color:#fff; border:0; border-radius:8px; padding:14px 20px; cursor:pointer; min-height:48px; }
+  .btn.ghost { background:#fff; color:var(--green); border:1px solid var(--green); }
+  .btn.text { background:none; color:var(--green); padding:10px 0; min-height:44px; }
+  .btn[disabled] { opacity:.5; cursor:default; }
+  .nav { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); padding:10px 16px calc(10px + env(safe-area-inset-bottom)); }
+  .nav > div { max-width:640px; margin:0 auto; display:flex; gap:10px; align-items:center; justify-content:space-between; }
+  .save { font-size:13px; color:var(--muted); }
+  .back { background:none; border:0; color:var(--green); font:500 15px 'Work Sans',sans-serif; padding:10px 0; cursor:pointer; min-height:44px; }
+  .room { margin:26px 0 0; }
+  .room h3 { margin-bottom:8px; }
+  .item { display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:12px 0; border-top:1px solid var(--line); }
+  .item .name { flex:1 1 180px; }
+  .item .name small { display:block; color:var(--muted); font-size:13px; }
+  .item.skipped .name { color:var(--muted); text-decoration:line-through; }
+  .addbtn { position:relative; overflow:hidden; display:inline-flex; align-items:center; justify-content:center; font:500 15px 'Work Sans',sans-serif; background:#fff; color:var(--green); border:1px solid var(--green); border-radius:8px; padding:9px 14px; min-height:44px; cursor:pointer; }
+  .addbtn input { position:absolute; inset:0; opacity:0; cursor:pointer; font-size:100px; }
+  .addbtn.has { background:var(--green); color:#fff; }
+  .link { background:none; border:0; color:var(--muted); font:inherit; font-size:13px; text-decoration:underline; cursor:pointer; padding:8px 2px; min-height:36px; }
+  .thumbs { flex-basis:100%; display:flex; gap:6px; flex-wrap:wrap; }
+  .thumbs img { width:52px; height:52px; object-fit:cover; border-radius:6px; }
+  .note { background:var(--off); border-radius:10px; padding:14px; margin:18px 0 0; font-size:15px; }
+  .note.warn { background:#FBF3E6; color:var(--warn); }
+  .note b { font-weight:600; }
+  .share { display:flex; gap:8px; margin-top:10px; }
+  .share input { flex:1; font-size:14px; }
+  .missing { margin:10px 0 0; padding-left:20px; }
+  .missing .link { text-align:left; }
+  .queue { position:fixed; left:16px; right:16px; bottom:84px; max-width:608px; margin:0 auto; background:var(--ink); color:#fff; border-radius:8px; padding:10px 14px; font-size:14px; }
+  .hidden { display:none !important; }
+  .center { text-align:center; padding-top:60px; }
+  .spin { width:30px; height:30px; border:3px solid var(--line); border-top-color:var(--green); border-radius:50%; margin:0 auto 14px; animation:s 1s linear infinite; }
+  @keyframes s { to { transform:rotate(360deg); } }
+  @media (prefers-reduced-motion:reduce) { .spin { animation-duration:3s; } .bar i { transition:none; } }
+</style>
+</head>
+<body>
+<main class="wrap" id="app"><div class="center"><div class="spin"></div><p class="sub">Opening your setup…</p></div></main>
+<div class="queue hidden" id="queue" role="status" aria-live="polite"></div>
+
+<script>
+var API_URL = 'https://script.google.com/macros/s/AKfycbyNeO6fTc_BJ8X3LpCHGUt8Z_Ip6BM70GSTMECa8vmOLs1KhIoVQdHkoNVwRJgE7CR5/exec';
+var TOKEN = (location.hash.match(/k=([A-Za-z0-9]+)/) || [])[1] || '';
+</script>
+<script>
+var S = { data:null, answers:{}, view:'home', dirty:{}, saveTimer:null, saving:false, thumbs:{}, upQueue:[], uploading:false, saveState:'' };
+var app = document.getElementById('app');
+
+function el(tag, attrs, kids) {
+  var n = document.createElement(tag);
+  Object.keys(attrs || {}).forEach(function (k) {
+    if (k === 'text') n.textContent = attrs[k];
+    else if (k === 'on') Object.keys(attrs.on).forEach(function (e) { n.addEventListener(e, attrs.on[e]); });
+    else if (attrs[k] !== undefined && attrs[k] !== null && attrs[k] !== false) n.setAttribute(k, attrs[k]);
+  });
+  (kids || []).forEach(function (c) { if (c) n.appendChild(c); });
+  return n;
+}
+function call(fn) {
+  var args = [].slice.call(arguments, 1);
+  // credentials:'omit' keeps the visitor's Google sign-in out of it, which is what breaks Google's own page.
+  return fetch(API_URL, { method:'POST', credentials:'omit', headers:{ 'Content-Type':'text/plain;charset=utf-8' }, body:JSON.stringify({ fn:fn, args:args }) })
+    .then(function (r) { return r.json(); }, function () { throw new Error('We couldn\'t reach Oasis. Check your connection and try again, or call or text us at 509-281-5450.'); })
+    .then(function (d) { if (!d.ok) throw new Error(d.error); return d.result; });
+}
+function has(v) { return Array.isArray(v) ? v.length > 0 : v !== undefined && v !== null && String(v).trim() !== ''; }
+function visible(f) {
+  if (!f.show) return true;
+  var v = S.answers[f.show.id];
+  if (f.show.contains) return String(v || '').toLowerCase().indexOf(f.show.contains) >= 0;
+  if (Array.isArray(v)) return v.some(function (x) { return f.show.any.indexOf(x) >= 0; });
+  return f.show.any.indexOf(v) >= 0;
+}
+function sectionStats(s) {
+  var shown = s.fields.filter(visible), req = shown.filter(function (f) { return f.req; });
+  return { n:shown.length, answered:shown.filter(function (f) { return has(S.answers[f.id]); }).length,
+    req:req.length, reqDone:req.filter(function (f) { return has(S.answers[f.id]); }).length };
+}
+function photoItems() {
+  var a = S.answers, am = a.amenities || [], out = [];
+  S.data.rooms.forEach(function (r) {
+    var copies = r.perBedroom ? Math.max(parseInt(a.bedrooms, 10) || 1, 1) : r.perBathroom ? Math.max(Math.ceil(parseFloat(a.bathrooms)) || 1, 1) : 1;
+    for (var i = 1; i <= copies; i++) {
+      var title = (r.perBedroom || r.perBathroom) ? r.title + ' ' + i : r.title;
+      var key = (r.perBedroom || r.perBathroom) ? r.id + i : r.id;
+      var items = r.items.filter(function (it) { return typeof it === 'string' || am.indexOf(it.when) >= 0; })
+        .map(function (it) { return typeof it === 'string' ? it : it.t; });
+      if (items.length) out.push({ key:key, title:title, items:items });
+    }
+  });
+  return out;
+}
+function photoStats() {
+  var total = 0, done = 0, skip = S.answers._photo_skip || [];
+  photoItems().forEach(function (r) { r.items.forEach(function (it) {
+    var k = r.key + '|' + it;
+    total++;
+    if ((S.data.photoCounts[k] || 0) > 0 || skip.indexOf(r.title + '|' + it) >= 0) done++;
+  }); });
+  return { total:total, done:done };
+}
+function overall() {
+  var t = 0, d = 0;
+  S.data.sections.forEach(function (s) { var x = sectionStats(s); t += x.req; d += x.reqDone; });
+  return t ? d / t : 0;
+}
+function missing() {
+  var out = [];
+  S.data.sections.forEach(function (s) { s.fields.forEach(function (f) {
+    if (f.req && visible(f) && !has(S.answers[f.id])) out.push({ section:s, label:f.label });
+  }); });
+  return out;
+}
+
+/* ---------- Saving ---------- */
+function setAnswer(id, v) {
+  if (has(v)) S.answers[id] = v; else delete S.answers[id];
+  S.dirty[id] = has(v) ? v : '';
+  S.saveState = 'Saving…'; paintSave();
+  clearTimeout(S.saveTimer);
+  S.saveTimer = setTimeout(flush, 700);
+}
+function flush() {
+  if (S.saving || !Object.keys(S.dirty).length) return Promise.resolve();
+  var batch = S.dirty; S.dirty = {}; S.saving = true;
+  return call('saveAnswers', TOKEN, batch).then(function () {
+    S.saving = false;
+    if (Object.keys(S.dirty).length) return flush();
+    S.saveState = 'All changes saved'; paintSave();
+  }).catch(function () {
+    S.saving = false;
+    Object.keys(batch).forEach(function (k) { if (S.dirty[k] === undefined) S.dirty[k] = batch[k]; });
+    S.saveState = 'Couldn\'t save. Retrying…'; paintSave();
+    S.saveTimer = setTimeout(flush, 4000);
+  });
+}
+function paintSave() { var e = document.getElementById('save'); if (e) e.textContent = S.saveState; }
+
+/* ---------- Views ---------- */
+function go(v) { S.view = v; render(); window.scrollTo(0, 0); }
+function render() {
+  app.textContent = '';
+  if (S.data.role === 'helper') return renderPhotos(true);
+  if (S.view === 'home') return renderHome();
+  if (S.view === 'photos') return renderPhotos(false);
+  if (S.view === 'review') return renderReview();
+  if (S.view === 'done') return renderDone();
+  renderSection(S.data.sections.filter(function (s) { return s.id === S.view; })[0]);
+}
+function header() { return el('div', { 'class':'brand', text:'Oasis Escapes' }); }
+
+function renderHome() {
+  var pct = Math.round(overall() * 100), first = String(S.data.ownerName || '').split(/\s+/).slice(0, -1).join(' ') || S.data.ownerName;
+  var ps = photoStats();
+  app.appendChild(header());
+  app.appendChild(el('h1', { text:'Let\'s get ' + S.data.property + ' ready for guests' }));
+  app.appendChild(el('p', { 'class':'sub', text:(first ? 'Hi ' + first + '. ' : '') + 'Answer what you can, in any order. Everything saves as you go, so stop whenever you need to and come back to this same link.' }));
+  var bar = el('div', { 'class':'bar' }, [el('i', { style:'width:' + pct + '%' })]);
+  app.appendChild(bar);
+  app.appendChild(el('div', { 'class':'barlabel' }, [el('span', { text:pct + '% of the must-haves done' })]));
+
+  var list = el('div', { 'class':'steps' });
+  S.data.sections.forEach(function (s) {
+    var x = sectionStats(s), done = x.reqDone === x.req && x.answered > 0, part = x.answered > 0 && !done;
+    var sub = done ? 'Done' : part ? x.answered + ' of ' + x.n + ' answered' : x.n + ' questions';
+    list.appendChild(el('button', { 'class':'step', type:'button', on:{ click:function () { go(s.id); } } }, [
+      el('span', { 'class':'dot' + (done ? ' done' : part ? ' part' : ''), text:done ? '✓' : '', 'aria-hidden':'true' }),
+      el('span', {}, [el('b', { text:s.title }), el('small', { text:sub })]),
+      el('span', { 'class':'chev', text:'›', 'aria-hidden':'true' })
+    ]));
+  });
+  var pd = ps.total > 0 && ps.done === ps.total;
+  list.appendChild(el('button', { 'class':'step feature', type:'button', on:{ click:function () { go('photos'); } } }, [
+    el('span', { 'class':'dot' + (pd ? ' done' : ps.done ? ' part' : ''), text:pd ? '✓' : '', 'aria-hidden':'true' }),
+    el('span', {}, [el('b', { text:'Photo walk' }), el('small', { text:ps.done + ' of ' + ps.total + ' spots covered. Quick phone snaps, room by room.' })]),
+    el('span', { 'class':'chev', text:'›', 'aria-hidden':'true' })
+  ]));
+  app.appendChild(list);
+  app.appendChild(el('div', { 'class':'note' }, [el('b', { text:'Stuck on something? ' }), el('span', { text:'Skip it, or call or text us at 509-281-5450. You\'re talking to the people whose name is on the business.' })]));
+  app.appendChild(nav(null, el('button', { 'class':'btn', type:'button', text:'Review and send', on:{ click:function () { go('review'); } } })));
+}
+
+function nav(left, right) {
+  return el('div', { 'class':'nav' }, [el('div', {}, [left || el('span', { id:'save', 'class':'save', text:S.saveState }), right])]);
+}
+
+function renderField(f, container) {
+  var wrap = el('div', { 'class':'field', 'data-id':f.id });
+  var labelId = 'q_' + f.id;
+  var lab = el(f.type === 'one' || f.type === 'many' ? 'div' : 'label', f.type === 'one' || f.type === 'many' ? { 'class':'lbl', id:labelId } : { 'for':labelId });
+  lab.appendChild(document.createTextNode(f.label));
+  if (f.req) lab.appendChild(el('span', { 'class':'req', text:'needed' }));
+  wrap.appendChild(lab);
+  if (f.help) wrap.appendChild(el('p', { 'class':'help', text:f.help }));
+  var v = S.answers[f.id];
+
+  if (f.type === 'one' || f.type === 'many') {
+    var box = el('div', { 'class':'opts', role:'group', 'aria-labelledby':labelId });
+    f.options.forEach(function (o) {
+      var on = f.type === 'one' ? v === o : (v || []).indexOf(o) >= 0;
+      box.appendChild(el('button', { 'class':'opt', type:'button', 'aria-pressed':String(on), text:o, on:{ click:function () {
+        if (f.type === 'one') { setAnswer(f.id, S.answers[f.id] === o ? '' : o); }
+        else {
+          var cur = (S.answers[f.id] || []).slice(), i = cur.indexOf(o);
+          if (i >= 0) cur.splice(i, 1); else cur.push(o);
+          setAnswer(f.id, cur);
+        }
+        rerenderSection();
+      } } }));
+    });
+    wrap.appendChild(box);
+  } else if (f.type === 'long') {
+    wrap.appendChild(el('textarea', { id:labelId, placeholder:f.placeholder || '', on:{ input:function (e) { setAnswer(f.id, e.target.value); } } }));
+    wrap.lastChild.value = v || '';
+  } else {
+    var inputType = f.type === 'number' ? 'number' : f.id === 'email' ? 'email' : f.id === 'phone' ? 'tel' : 'text';
+    wrap.appendChild(el('input', { id:labelId, type:inputType, placeholder:f.placeholder || '', inputmode:f.type === 'number' ? 'decimal' : null, step:f.type === 'number' ? 'any' : null, min:f.type === 'number' ? '0' : null, on:{ input:function (e) {
+      setAnswer(f.id, e.target.value);
+      if (f.id === 'market') updateConditional();
+    } } }));
+    wrap.lastChild.value = v || '';
+  }
+  container.appendChild(wrap);
+}
+
+var currentSection = null;
+function renderSection(s) {
+  currentSection = s;
+  var idx = S.data.sections.indexOf(s), next = S.data.sections[idx + 1];
+  app.appendChild(el('button', { 'class':'back', type:'button', text:'‹ All steps', on:{ click:function () { flush(); go('home'); } } }));
+  app.appendChild(el('h2', { text:s.title }));
+  if (s.intro) app.appendChild(el('p', { 'class':'sub', text:s.intro }));
+  var body = el('div', { id:'fields' });
+  s.fields.filter(visible).forEach(function (f) { renderField(f, body); });
+  app.appendChild(body);
+  app.appendChild(nav(null, el('button', { 'class':'btn', type:'button', text:next ? 'Next: ' + next.title : 'Next: Photo walk', on:{ click:function () { flush(); go(next ? next.id : 'photos'); } } })));
+}
+/** Redraws only option buttons and shown questions, keeping place on the page. */
+function rerenderSection() {
+  var y = window.scrollY, body = document.getElementById('fields');
+  if (!body || !currentSection) return;
+  body.textContent = '';
+  currentSection.fields.filter(visible).forEach(function (f) { renderField(f, body); });
+  window.scrollTo(0, y);
+}
+/** Shows or hides text-driven follow-ups without stealing focus from the input being typed in. */
+function updateConditional() {
+  var body = document.getElementById('fields');
+  if (!body || !currentSection) return;
+  var shown = currentSection.fields.filter(visible).map(function (f) { return f.id; });
+  var onPage = [].map.call(body.children, function (c) { return c.getAttribute('data-id'); });
+  if (shown.join() !== onPage.join()) {
+    var active = document.activeElement && document.activeElement.id, pos = active && document.activeElement.selectionStart;
+    rerenderSection();
+    if (active && document.getElementById(active)) { var e = document.getElementById(active); e.focus(); try { e.setSelectionRange(pos, pos); } catch (x) {} }
+  }
+}
+
+function renderPhotos(helper) {
+  if (helper) app.appendChild(header());
+  else app.appendChild(el('button', { 'class':'back', type:'button', text:'‹ All steps', on:{ click:function () { go('home'); } } }));
+  app.appendChild(el(helper ? 'h1' : 'h2', { text:helper ? 'Photo walk: ' + S.data.property : 'Photo walk' }));
+  app.appendChild(el('p', { 'class':'sub', text:'Walk through with your phone and snap each spot. Open every cabinet and drawer so we can see what\'s inside. These are for our team\'s reference, not your listing, so don\'t tidy or stage anything.' }));
+
+  if (!helper) {
+    var mode = S.answers._photo_mode;
+    var box = el('div', { 'class':'field' }, [el('div', { 'class':'lbl', text:'Can you get to the home?' })]);
+    var opts = el('div', { 'class':'opts' });
+    [['near', 'Yes, I\'ll take them'], ['someone', 'Someone nearby can help'], ['later', 'Not any time soon']].forEach(function (p) {
+      opts.appendChild(el('button', { 'class':'opt', type:'button', 'aria-pressed':String(mode === p[0]), text:p[1], on:{ click:function () { setAnswer('_photo_mode', p[0]); render(); } } }));
+    });
+    box.appendChild(opts); app.appendChild(box);
+    if (mode === 'someone') {
+      var inp = el('input', { type:'text', readonly:'readonly', 'aria-label':'Photo link to share' }); inp.value = S.data.helperLink;
+      app.appendChild(el('div', { 'class':'note' }, [
+        el('b', { text:'Send this link to your cleaner, neighbor, or friend. ' }),
+        el('span', { text:'It only opens this photo checklist. They won\'t see your codes or answers.' }),
+        el('div', { 'class':'share' }, [inp, el('button', { 'class':'btn ghost', type:'button', text:'Copy', on:{ click:function (e) { inp.select(); try { document.execCommand('copy'); e.target.textContent = 'Copied'; } catch (x) {} } } })])
+      ]));
+    }
+    if (mode === 'later') app.appendChild(el('div', { 'class':'note', text:'No problem. Finish the rest of your setup and we\'ll work out the photos with you on our onboarding call.' }));
+    if (mode === 'later') { app.appendChild(nav(null, el('button', { 'class':'btn', type:'button', text:'Review and send', on:{ click:function () { go('review'); } } }))); return; }
+  }
+
+  photoItems().forEach(function (r) {
+    var sec = el('section', { 'class':'room' }, [el('h3', { text:r.title })]);
+    r.items.forEach(function (it) { sec.appendChild(photoRow(r, it)); });
+    app.appendChild(sec);
+  });
+  var right = helper
+    ? el('span', { 'class':'save', text:'Photos upload as you add them. You can close this page any time.' })
+    : el('button', { 'class':'btn', type:'button', text:'Review and send', on:{ click:function () { go('review'); } } });
+  app.appendChild(nav(helper ? el('span') : null, right));
+}
+
+function photoRow(room, label) {
+  var key = room.key + '|' + label, skipKey = room.title + '|' + label;
+  var count = S.data.photoCounts[key] || 0, skips = S.answers._photo_skip || [], skipped = skips.indexOf(skipKey) >= 0;
+  var row = el('div', { 'class':'item' + (skipped ? ' skipped' : ''), 'data-key':key });
+  row.appendChild(el('div', { 'class':'name' }, [
+    el('span', { text:label }),
+    count ? el('small', { text:count + ' photo' + (count > 1 ? 's' : '') + ' added' }) : null
+  ]));
+  if (!skipped) {
+    var input = el('input', { type:'file', accept:'image/*', multiple:'multiple', 'aria-label':'Add photos: ' + room.title + ', ' + label, on:{ change:function (e) {
+      [].slice.call(e.target.files).forEach(function (file) { enqueue(room, label, file); });
+      e.target.value = '';
+    } } });
+    row.appendChild(el('label', { 'class':'addbtn' + (count ? ' has' : '') }, [document.createTextNode(count ? '+ More' : '+ Add photos'), input]));
+    if (count) row.appendChild(el('button', { 'class':'link', type:'button', text:'Undo last', on:{ click:function () { removeLast(room, label); } } }));
+  }
+  if (!count) row.appendChild(el('button', { 'class':'link', type:'button', text:skipped ? 'Undo' : 'Doesn\'t apply', on:{ click:function () {
+    var cur = (S.answers._photo_skip || []).slice(), i = cur.indexOf(skipKey);
+    if (i >= 0) cur.splice(i, 1); else cur.push(skipKey);
+    setAnswer('_photo_skip', cur); redrawPhotos();
+  } } }));
+  var th = S.thumbs[key];
+  if (th && th.length) row.appendChild(el('div', { 'class':'thumbs' }, th.map(function (src) { return el('img', { src:src, alt:'' }); })));
+  return row;
+}
+function redrawPhotos() { var y = window.scrollY; render(); window.scrollTo(0, y); }
+
+function removeLast(room, label) {
+  var key = room.key + '|' + label;
+  call('removeLastPhoto', TOKEN, room.key, label).then(function () {
+    S.data.photoCounts[key] = Math.max((S.data.photoCounts[key] || 1) - 1, 0);
+    if (S.thumbs[key]) S.thumbs[key].pop();
+    redrawPhotos();
+  }).catch(function (e) { toast(e.message || 'Couldn\'t remove that photo.'); });
+}
+
+/* ---------- Photo upload: shrink on the phone, then send one at a time ---------- */
+function enqueue(room, label, file) { S.upQueue.push({ room:room, label:label, file:file, tries:0 }); pump(); }
+function pump() {
+  paintQueue();
+  if (S.uploading || !S.upQueue.length) return;
+  S.uploading = true;
+  var job = S.upQueue[0];
+  shrink(job.file).then(function (dataUrl) {
+    return call('uploadPhoto', TOKEN, job.room.key, job.room.title, job.label, dataUrl, job.file.name).then(function () {
+      var key = job.room.key + '|' + job.label;
+      S.data.photoCounts[key] = (S.data.photoCounts[key] || 0) + 1;
+      (S.thumbs[key] = S.thumbs[key] || []).push(dataUrl);
+      S.upQueue.shift(); S.uploading = false;
+      redrawPhotos(); pump();
+    });
+  }).catch(function (e) {
+    S.uploading = false; job.tries++;
+    if (job.tries < 3) { paintQueue('Connection hiccup. Retrying…'); setTimeout(pump, 2500 * job.tries); return; }
+    S.upQueue.shift();
+    toast('Couldn\'t upload ' + job.file.name + '. ' + (e && e.message ? e.message : 'Please try that one again.'));
+    pump();
+  });
+}
+function paintQueue(msg) {
+  var q = document.getElementById('queue');
+  if (msg) { q.textContent = msg; q.classList.remove('hidden'); return; }
+  if (S.upQueue.length) { q.textContent = 'Uploading ' + S.upQueue.length + ' photo' + (S.upQueue.length > 1 ? 's' : '') + '. Please keep this page open.'; q.classList.remove('hidden'); }
+  else q.classList.add('hidden');
+}
+function toast(msg) { var q = document.getElementById('queue'); q.textContent = msg; q.classList.remove('hidden'); setTimeout(function () { if (!S.upQueue.length) q.classList.add('hidden'); }, 6000); }
+/** Reference shots don't need full size: 1600px keeps uploads fast on cell data. */
+function shrink(file) {
+  return new Promise(function (ok, no) {
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function () {
+      var max = 1600, r = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      var c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * r); c.height = Math.round(img.naturalHeight * r);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      ok(c.toDataURL('image/jpeg', 0.8));
+    };
+    img.onerror = function () {
+      URL.revokeObjectURL(url);
+      // Browser can't decode it (often HEIC on a computer). Send the original instead.
+      var fr = new FileReader();
+      fr.onload = function () { ok(fixType(fr.result, file)); };
+      fr.onerror = function () { no(new Error('That file could not be read.')); };
+      fr.readAsDataURL(file);
+    };
+    img.src = url;
+  });
+}
+function fixType(dataUrl, file) {
+  return /\.hei[cf]$/i.test(file.name) ? dataUrl.replace(/^data:[^;]*;/, 'data:image/heic;') : dataUrl;
+}
+
+/* ---------- Review and send ---------- */
+function renderReview() {
+  var miss = missing(), ps = photoStats(), mode = S.answers._photo_mode;
+  app.appendChild(el('button', { 'class':'back', type:'button', text:'‹ All steps', on:{ click:function () { go('home'); } } }));
+  app.appendChild(el('h2', { text:'Review and send' }));
+  if (miss.length) {
+    var ul = el('ul', { 'class':'missing' });
+    miss.forEach(function (m) { ul.appendChild(el('li', {}, [el('button', { 'class':'link', style:'color:inherit', type:'button', text:m.section.title + ': ' + m.label, on:{ click:function () { go(m.section.id); } } })])); });
+    app.appendChild(el('div', { 'class':'note warn' }, [el('b', { text:miss.length + ' item' + (miss.length > 1 ? 's' : '') + ' still needed.' }), el('span', { text:' Tap one to fill it in, or send what you have and we\'ll follow up.' }), ul]));
+  } else {
+    app.appendChild(el('div', { 'class':'note', text:'All the must-haves are in. Thank you.' }));
+  }
+  if (mode !== 'later' && ps.done < ps.total) app.appendChild(el('div', { 'class':'note', text:'Photo walk: ' + ps.done + ' of ' + ps.total + ' spots covered. You can keep adding photos after you send this.' }));
+  var ack = S.answers._ack === true, box = el('input', { type:'checkbox', id:'ack', style:'width:22px;height:22px;flex:none' });
+  box.checked = ack;
+  app.appendChild(el('label', { 'for':'ack', style:'display:flex;gap:10px;margin-top:22px;align-items:flex-start' }, [box, el('span', { text:'I understand onboarding can\'t finish until my setup details and access are in.' })]));
+  var send = el('button', { 'class':'btn', type:'button', text:miss.length ? 'Send what I have' : 'Send to Oasis', on:{ click:function () {
+    if (!box.checked) { toast('Please check the box above first.'); return; }
+    send.disabled = true; send.textContent = 'Sending…';
+    flush().then(function () { return call('submitIntake', TOKEN); }).then(function (r) { S.submitted = r; go('done'); })
+      .catch(function (e) { send.disabled = false; send.textContent = 'Try again'; toast(e.message || 'Something went wrong. Your answers are saved.'); });
+  } } });
+  app.appendChild(nav(null, send));
+}
+function renderDone() {
+  app.appendChild(header());
+  app.appendChild(el('h1', { text:'Got it. Thank you!' }));
+  var left = (S.submitted && S.submitted.missing || []).length;
+  app.appendChild(el('p', { 'class':'sub', text:left ? 'We have what you\'ve sent so far, and we\'ll follow up on the ' + left + ' item' + (left > 1 ? 's' : '') + ' still open.' : 'We have everything we asked for and we\'ll start building your listings.' }));
+  app.appendChild(el('div', { 'class':'note', text:'Next, we\'ll set up a quick onboarding call to settle the final details. This link stays open, so you can add more or change an answer any time.' }));
+  app.appendChild(el('p', {}, [el('button', { 'class':'btn ghost', type:'button', text:'Back to my setup', on:{ click:function () { go('home'); } } })]));
+}
+
+function fail(e) {
+  app.textContent = '';
+  app.appendChild(header());
+  app.appendChild(el('h2', { text:'We couldn\'t open your setup' }));
+  app.appendChild(el('p', { 'class':'sub', text:(e && e.message) || 'Please try again in a minute, or call or text us at 509-281-5450.' }));
+}
+window.addEventListener('beforeunload', function (e) { if (S.upQueue.length || Object.keys(S.dirty).length) { flush(); e.preventDefault(); e.returnValue = ''; } });
+document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flush(); });
+
+call('bootstrap', TOKEN).then(function (d) { S.data = d; S.answers = d.answers || {}; render(); }).catch(fail);
+</script>
+</body>
+</html>
